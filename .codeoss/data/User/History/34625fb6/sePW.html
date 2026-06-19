@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kiosk File Upload</title>
+    <style>
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 100vh; margin: 0; background-color: #f0f2f5; color: #333; }
+        .card { background: white; padding: 2rem; border-radius: 12px; box-shadow: 0 8px 24px rgba(0,0,0,0.1); text-align: center; width: 90%; max-width: 400px; }
+        h2 { color: #1a73e8; margin-bottom: 0.5rem; }
+        p { color: #5f6368; margin-bottom: 1.5rem; }
+        input[type="file"] { margin-bottom: 1.5rem; width: 100%; }
+        .btn { background-color: #1a73e8; color: white; border: none; padding: 12px 24px; border-radius: 6px; font-size: 1rem; font-weight: 600; cursor: pointer; width: 100%; transition: background 0.3s; }
+        .btn:disabled { background-color: #ccc; cursor: not-allowed; }
+        #status { margin-top: 1.5rem; font-size: 0.9rem; font-weight: 500; }
+        .success { color: #28a745; }
+        .error { color: #dc3545; }
+    </style>
+</head>
+<body>
+    <div class="card">
+        <h2>Upload Document</h2>
+        <p>Select the file you want to print.</p>
+        
+        <input type="file" id="fileInput" accept=".pdf,.doc,.docx,.jpg,.png">
+        <button id="uploadBtn" class="btn">Upload to Kiosk</button>
+        
+        <div id="status"></div>
+    </div>
+
+    <script>
+        const uploadBtn = document.getElementById('uploadBtn');
+        const fileInput = document.getElementById('fileInput');
+        const statusDiv = document.getElementById('status');
+
+        // Kunin ang sessionId mula sa URL (e.g. ?sessionId=abc123)
+        const urlParams = new URLSearchParams(window.location.search);
+        const sessionId = urlParams.get('sessionId');
+
+        if (!sessionId) {
+            statusDiv.innerHTML = '<span class="error">Error: Missing Session ID. Please re-scan the QR code.</span>';
+            uploadBtn.disabled = true;
+        }
+
+        uploadBtn.addEventListener('click', async () => {
+            const file = fileInput.files[0];
+            if (!file) {
+                alert("Please select a file first.");
+                return;
+            }
+
+            const formData = new FormData();
+            formData.append('file', file);
+
+            uploadBtn.disabled = true;
+            statusDiv.innerText = "Uploading... please wait.";
+
+            try {
+                const response = await fetch(`/upload/${sessionId}`, {
+                    method: 'POST',
+                    body: formData
+                });
+
+                if (response.ok) {
+                    statusDiv.innerHTML = '<span class="success">✅ Upload Successful! You can now continue on the kiosk screen.</span>';
+                } else {
+                    const msg = await response.text();
+                    statusDiv.innerHTML = `<span class="error">❌ Failed: ${msg}</span>`;
+                    uploadBtn.disabled = false;
+                }
+            } catch (err) {
+                statusDiv.innerHTML = '<span class="error">❌ Connection error. Is the kiosk online?</span>';
+                uploadBtn.disabled = false;
+            }
+        });
+    </script>
+</body>
+</html>

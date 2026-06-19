@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Print Process - Settings</title>
+</head>
+<body>
+    <div class="back-nav">
+        <a href="print_process.html" class="back-button">Back</a>
+    </div>
+
+    <div id="print">
+        <div class="stepper-wrapper">
+            <a href="print_process.html" class="step-link">
+                <div class="stepper-item">
+                    <div class="step-counter">1</div>
+                    <div class="step-name">Upload</div>
+                </div>
+            </a>
+            <a href="process.html" class="step-link">
+                <div class="stepper-item active">
+                    <div class="step-counter">2</div>
+                    <div class="step-name">Process</div>
+                </div>
+            </a>
+            <a href="review.html" class="step-link">
+                <div class="stepper-item">
+                    <div class="step-counter">3</div>
+                    <div class="step-name">Review</div>
+                </div>
+            </a>
+            <a href="print.html" class="step-link">
+                <div class="stepper-item">
+                    <div class="step-counter">4</div>
+                    <div class="step-name">Print</div>
+                </div>
+            </a>
+        </div>
+
+        <div class="settings-container">
+            <h2 class="section-title">Print Settings</h2>
+            
+            <div class="settings-grid">
+                <div class="settings-col">
+                    <div class="input-group">
+                        <label>Number of Copies</label>
+                        <div class="quantity-selector">
+                            <button type="button" class="qty-btn" onclick="decrement()">-</button>
+                            <input type="number" id="copy-count" value="1" min="1" readonly>
+                            <button type="button" class="qty-btn" onclick="increment()">+</button>
+                        </div>
+                    </div>
+
+                    <div class="input-group">
+                        <label>Page Layout</label>
+                        <select>
+                            <option>Portrait</option>
+                            <option>Landscape</option>
+                        </select>
+                    </div>
+
+                    <div class="input-group">
+                        <label>Paper Size</label>
+                        <select>
+                            <option>A4</option>
+                            <option>Letter (Short)</option>
+                            <option>Legal (Long)</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="settings-col">
+                    <div class="input-group">
+                        <label>Color Mode</label>
+                        <div class="radio-group">
+                            <label><input type="radio" name="color" checked> Black & White</label>
+                            <label><input type="radio" name="color"> Colored</label>
+                        </div>
+                    </div>
+
+                    <div class="input-group">
+                        <label>Payment Method</label>
+                        <div class="radio-group">
+                            <label><input type="radio" name="pay" checked> Coins/Cash</label>
+                            <label><input type="radio" name="pay"> GCash</label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="footer-action">
+                <a href="review.html" class="next-step-btn">Proceed to Review</a>
+            </div>
+        </div>
+    </div>
+
+    <style>
+     * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: Arial, sans-serif;
+    }
+
+    body {
+        height: 100vh;
+        width: 100%;
+        background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+        color: white;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+        overflow: hidden;
+    }
+
+    .back-nav {
+        position: absolute;
+        top: 20px;
+        left: 50px;
+        z-index: 10;
+    }
+
+    .back-button {
+        display: flex;
+        align-items: center;
+        text-decoration: none;
+        color: rgb(41, 40, 40);
+        font-size: 20px;
+        font-weight: 600;
+        background: rgb(250, 248, 248);
+        padding: 10px 20px;
+        border-radius: 50px;
+        border: 1px solid rgba(236, 230, 230, 0.2);
+        transition: 0.3s;
+    }
+
+    .back-button:hover {
+        background: rgba(255, 255, 255, 0.8);
+        transform: translateX(-5px);
+    }
+
+    .back-button::before {
+        content: "\2190";
+        margin-right: 10px;
+        font-size: 24px;
+    }
+
+    /* --- Main White Container --- */
+    #print {
+        background: rgba(255, 255, 255, 0.95); 
+        border-radius: 20px;
+        height: 85vh;
+        width: 95%;
+        display: flex;
+        flex-direction: column; /* Mahalaga: Para mag-stack vertical ang stepper at qr */
+        align-items: center;    /* Center horizontal lahat ng nasa loob */
+        justify-content: flex-start; /* Simula sa taas ang salansan */
+        padding: 50px 20px;     /* Padding sa lahat ng side */
+        color: #333;
+    }
+
+    /* --- Stepper Design --- */
+    .stepper-wrapper {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        width: 100%;
+        max-width: 800px;
+        position: relative;
+        margin-bottom: 40px; /* Space sa ilalim ng stepper */
+    }
+
+    .stepper-wrapper::before {
+        content: '';
+        position: absolute;
+        top: 25px;
+        left: 50px;
+        right: 50px;
+        height: 2px;
+        background: #ddd;
+        z-index: 1;
+    }
+
+    .step-link {
+        text-decoration: none;
+        flex: 1;
+        z-index: 2;
+        transition: 0.3s;
+    }
+
+    .stepper-item {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .step-counter {
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+        background: #eee;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-weight: bold;
+        margin-bottom: 10px;
+        border: 2px solid #ccc;
+        color: #888;
+    }
+
+    .step-name {
+        font-size: 14px;
+        font-weight: 600;
+        color: #888;
+        text-transform: uppercase;
+    }
+
+    .stepper-item.active .step-counter {
+        background: #203a43;
+        color: white;
+        border-color: #203a43;
+        box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+    }
+
+    .stepper-item.active .step-name {
+        color: #203a43;
+    }
+
+    /* Quantity Selector CSS */
+    .quantity-selector {
+        display: flex; 
+        align-items: center; 
+        gap: 15px; 
+        background: #f0f3f5;
+        padding: 10px; 
+        border-radius: 12px; 
+        width: fit-content; 
+        border: 1px solid #ddd;
+    }
+    .qty-btn {
+        width: 50px; 
+        height: 35px; 
+        border-radius: 8px; 
+        border: none;
+        background: #203a43; 
+        color: white; 
+        font-size: 24px; 
+        cursor: pointer; 
+        transition: 0.2s;
+    }
+    .qty-btn:active { 
+        transform: scale(0.9); }
+    #copy-count {
+        width: 60px; text-align: center; font-size: 22px; font-weight: bold;
+        border: none; background: transparent; color: #333; outline: none;
+    }
+    #copy-count::-webkit-inner-spin-button { -webkit-appearance: none; }
+
+    /* Layout Sections */
+    .settings-container { width: 100%; max-width: 1000px; flex: 1; display: flex; flex-direction: column; }
+    .section-title { font-size: 35px; margin-bottom: 30px; text-align: left; border-left: 5px solid #203a43; padding-left: 15px; }
+    .settings-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 70px; text-align: left; }
+    .input-group { margin-bottom: 25px; }
+    .input-group label { display: block; font-weight: 700; margin-bottom: 15px; color: #444; font-size: 20px; }
+    .input-group select { width: 100%; padding: 15px; border-radius: 10px; border: 2px solid #eee; font-size: 16px; outline: none; }
+
+    .radio-group { display: flex; flex-direction: column; gap: 8px; background: #e4e9eb; border-radius: 10px; padding: 10px 0; }
+    .radio-group label { font-weight: 500; cursor: pointer; display: flex; align-items: center; gap: 12px; margin: 10px 0 10px 50px; }
+
+    .footer-action { margin-top: auto; width: 100%; display: flex; justify-content: flex-end; }
+    .next-step-btn {
+        background: #203a43; color: white; padding: 18px 45px; border-radius: 12px;
+        text-decoration: none; font-weight: bold; font-size: 16px; transition: 0.3s;
+    }
+    .next-step-btn:hover { background: #2c5364; transform: translateY(-3px); }
+    </style>
+
+    <script>
+        const countInput = document.getElementById('copy-count');
+        function increment() {
+            countInput.value = parseInt(countInput.value) + 1;
+        }
+        function decrement() {
+            let val = parseInt(countInput.value);
+            if (val > 1) countInput.value = val - 1;
+        }
+    </script>
+</body>
+</html>

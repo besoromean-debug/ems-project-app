@@ -1,0 +1,9 @@
+{
+  "name": "hello-node",
+  "version": "1.0.0",
+  "description": "Simple web server using Node.js",
+  "main": "server.js",
+  "dependencies": {
+    "express": "^4.18.2"
+  }
+}

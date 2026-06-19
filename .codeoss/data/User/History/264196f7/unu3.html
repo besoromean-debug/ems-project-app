@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="tl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EMS Login | Node.js Secure Portal</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body { background-color: #f4f7f6; }
+        .login-card { width: 400px; border-radius: 15px; box-shadow: 0 10px 25px rgba(0,0,0,0.1); }
+    </style>
+</head>
+<body class="d-flex align-items-center justify-content-center vh-100">
+    <div class="card login-card">
+        <div class="card-body p-5">
+            <h3 class="text-center mb-4">EMS Admin Login</h3>
+            
+            <div id="alertBox" class="alert alert-danger d-none"></div>
+
+            <form action="/login" method="POST">
+                <div class="mb-3">
+                    <label class="form-label">Username</label>
+                    <input type="text" name="username" class="form-control" required>
+                </div>
+                <div class="mb-4">
+                    <label class="form-label">Password</label>
+                    <input type="password" name="password" class="form-control" required>
+                </div>
+                <div class="d-grid">
+                    <button type="submit" class="btn btn-primary btn-lg">Login</button>
+                </div>
+            </form>
+        </div>
+        <div class="card-footer text-center py-3 bg-white border-0">
+            <small class="text-muted">EMS Node.js Infrastructure</small>
+        </div>
+    </div>
+    <script>
+        // Optional: Pwede mong gamitin ang Fetch API para hindi na mag-reload ang page
+        const urlParams = new URLSearchParams(window.location.search);
+        if (urlParams.has('error')) {
+            const alertBox = document.getElementById('alertBox');
+            alertBox.textContent = "Login failed. Please check your credentials.";
+            alertBox.classList.remove('d-none');
+        }
+    </script>
+</body>
+</html>

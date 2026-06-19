@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Review and Payment</title>
+</head>
+<body>
+    <div class="back-nav">
+        <a href="process.html" class="back-button">Back</a>
+    </div>
+
+    <div id="print">
+        <div class="stepper-wrapper">
+            <a href="print_process.html" class="step-link">
+                <div class="stepper-item">
+                    <div class="step-counter">1</div>
+                    <div class="step-name">Upload</div>
+                </div>
+            </a>
+            <a href="process.html" class="step-link">
+                <div class="stepper-item">
+                    <div class="step-counter">2</div>
+                    <div class="step-name">Process</div>
+                </div>
+            </a>
+            <a href="review.html" class="step-link">
+                <div class="stepper-item active">
+                    <div class="step-counter">3</div>
+                    <div class="step-name">Review</div>
+                </div>
+            </a>
+            <a href="print.html" class="step-link">
+                <div class="stepper-item">
+                    <div class="step-counter">4</div>
+                    <div class="step-name">Print</div>
+                </div>
+            </a>
+        </div>
+
+        <div class="review-container">
+            <div class="review-grid">
+                
+                <div class="summary-box">
+                    <h3 class="box-title">Order Summary</h3>
+                    <div class="info-row"><span>File Name:</span> <strong>document_final.pdf</strong></div>
+                    <div class="info-row"><span>Paper Size:</span> <strong>A4</strong></div>
+                    <div class="info-row"><span>Layout:</span> <strong>Portrait</strong></div>
+                    <div class="info-row"><span>Color:</span> <strong>Black & White</strong></div>
+                    <div class="info-row"><span>Copies:</span> <strong>1</strong></div>
+                    <hr class="divider">
+                    <div class="total-row">
+                        <span>Total to Pay:</span>
+                        <h2 id="total-price">₱ 5.00</h2>
+                    </div>
+                </div>
+
+                <div class="payment-box">
+                    <div id="coin-view" class="method-view">
+                        <h3 class="box-title">Insert Coins</h3>
+                        <div class="coin-slot-ui">
+                            <p>Amount Inserted</p>
+                            <div class="amount-circle">₱ <span id="inserted-val">0.00</span></div>
+                        </div>
+                        <p class="instruction">Please drop your coins in the slot below.</p>
+                        <div class="mini-loader"></div>
+                    </div>
+
+                    <div id="gcash-view" class="method-view" style="display: none;">
+                        <h3 class="box-title">GCash Payment</h3>
+                        <div class="qr-placeholder">
+                            <img src="https://api.qrserver.com/v1/create-qr-code/?size=180x180&data=GCASH_PAYMENT_SAMPLE" alt="GCash QR">
+                        </div>
+                        <p class="instruction">Scan the QR code to pay using GCash app.</p>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="action-area">
+                <a href="print.html" id="proceed-btn" class="btn disabled">Waiting for Payment...</a>
+            </div>
+        </div>
+    </div>
+
+    <style>
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: Arial, sans-serif;
+    }
+
+    body {
+        height: 100vh;
+        width: 100%;
+        background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+        color: white;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+        overflow: hidden;
+    }
+
+    .back-nav {
+        position: absolute;
+        top: 20px;
+        left: 50px;
+        z-index: 10;
+    }
+
+    .back-button {
+        display: flex;
+        align-items: center;
+        text-decoration: none;
+        color: rgb(41, 40, 40);
+        font-size: 20px;
+        font-weight: 600;
+        background: rgb(250, 248, 248);
+        padding: 10px 20px;
+        border-radius: 50px;
+        border: 1px solid rgba(236, 230, 230, 0.2);
+        transition: 0.3s;
+    }
+
+    .back-button:hover {
+        background: rgba(255, 255, 255, 0.8);
+        transform: translateX(-5px);
+    }
+
+    .back-button::before {
+        content: "\2190";
+        margin-right: 10px;
+        font-size: 24px;
+    }
+
+    /* --- Main White Container --- */
+    #print {
+        background: rgba(255, 255, 255, 0.95); 
+        border-radius: 20px;
+        height: 85vh;
+        width: 95%;
+        display: flex;
+        flex-direction: column; /* Mahalaga: Para mag-stack vertical ang stepper at qr */
+        align-items: center;    /* Center horizontal lahat ng nasa loob */
+        justify-content: flex-start; /* Simula sa taas ang salansan */
+        padding: 50px 20px;     /* Padding sa lahat ng side */
+        color: #333;
+    }
+
+    /* --- Stepper Design --- */
+    .stepper-wrapper {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        width: 100%;
+        max-width: 800px;
+        position: relative;
+        margin-bottom: 40px; /* Space sa ilalim ng stepper */
+    }
+
+    .stepper-wrapper::before {
+        content: '';
+        position: absolute;
+        top: 25px;
+        left: 50px;
+        right: 50px;
+        height: 2px;
+        background: #ddd;
+        z-index: 1;
+    }
+
+    .step-link {
+        text-decoration: none;
+        flex: 1;
+        z-index: 2;
+        transition: 0.3s;
+    }
+
+    .stepper-item {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .step-counter {
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+        background: #eee;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-weight: bold;
+        margin-bottom: 10px;
+        border: 2px solid #ccc;
+        color: #888;
+    }
+
+    .step-name {
+        font-size: 14px;
+        font-weight: 600;
+        color: #888;
+        text-transform: uppercase;
+    }
+
+    .stepper-item.active .step-counter {
+        background: #203a43;
+        color: white;
+        border-color: #203a43;
+        box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+    }
+
+    .stepper-item.active .step-name {
+        color: #203a43;
+    }
+
+    /* Review Content */
+    .review-container { width: 100%; max-width: 900px; flex: 1; display: flex; flex-direction: column; }
+    .review-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 30px; margin-top: 10px; }
+
+    .summary-box, .payment-box {
+        background: white; border-radius: 15px; padding: 30px;
+        box-shadow: 0 10px 25px rgba(0,0,0,0.05); border: 1px solid #eee;
+        text-align: left;
+    }
+
+    .box-title { font-size: 22px; color: #203a43; margin-bottom: 20px; border-bottom: 2px solid #f4f4f4; padding-bottom: 10px; }
+    .info-row { display: flex; justify-content: space-between; margin-bottom: 12px; font-size: 16px; color: #555; }
+    .divider { margin: 20px 0; border: none; border-top: 1px dashed #ccc; }
+    .total-row { display: flex; justify-content: space-between; align-items: center; }
+    .total-row h2 { color: #203a43; font-size: 32px; }
+
+    /* Payment Specifics */
+    .coin-slot-ui { text-align: center; margin: 20px 0; }
+    .amount-circle {
+        display: inline-block; width: 150px; height: 150px; border-radius: 50%;
+        background: #203a43; color: white; line-height: 150px;
+        font-size: 30px; font-weight: bold; margin-top: 10px;
+        box-shadow: 0 10px 20px rgba(32, 58, 67, 0.3);
+    }
+    .qr-placeholder { text-align: center; padding: 10px; background: #f9f9f9; border-radius: 10px; margin-bottom: 15px; }
+    .instruction { text-align: center; font-size: 14px; color: #777; margin-top: 10px; }
+
+    /* Button */
+    .action-area { margin-top: auto; width: 100%; display: flex; justify-content: flex-end; }
+    .btn {
+        padding: 18px 50px; border-radius: 12px; text-decoration: none;
+        font-weight: bold; transition: 0.3s; font-size: 18px;
+    }
+    .btn.disabled { background: #ccc; color: #888; pointer-events: none; }
+    .btn.active { background: #27ae60; color: white; box-shadow: 0 10px 20px rgba(39, 174, 96, 0.3); }
+
+    /* Loader Animation */
+    .mini-loader {
+        width: 20px; height: 20px; border: 3px solid #eee; border-top-color: #203a43;
+        border-radius: 50%; animation: spin 1s infinite linear; margin: 15px auto;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+    </style>
+
+    <script>
+        // Simulation Logic
+        window.onload = function() {
+            // Dito natin pwedeng i-check kung ano pinili sa previous page
+            // Halimbawa: let method = localStorage.getItem("payMethod");
+            
+            // SIMULATION: After 4 seconds, kunwari nagbayad na
+            setTimeout(() => {
+                document.getElementById('inserted-val').innerText = "5.00";
+                const btn = document.getElementById('proceed-btn');
+                btn.innerText = "Print Now";
+                btn.classList.remove('disabled');
+                btn.classList.add('active');
+            }, 4000);
+        };
+    </script>
+</body>
+</html>

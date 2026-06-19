@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kiosk - Welcome</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+    <style>
+        body { font-family: 'Segoe UI', sans-serif; display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100vh; margin: 0; background: #202124; color: white; }
+        .container { text-align: center; background: #3c4043; padding: 3rem; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
+        #qrcode { background: white; padding: 15px; border-radius: 10px; margin: 20px auto; display: inline-block; }
+        h1 { margin-bottom: 10px; }
+        p { color: #bdc1c6; }
+        .status-msg { margin-top: 20px; font-style: italic; color: #8ab4f8; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Print Your Documents</h1>
+        <p>Scan the QR code with your phone to upload files</p>
+        
+        <div id="url-display" style="font-size: 0.8rem; color: #888; margin-bottom: 5px;"></div>
+        <div id="qrcode"></div>
+        
+        <div id="status" class="status-msg">Waiting for scan...</div>
+    </div>
+
+    <script>
+        // 1. Generate unique Session ID
+        const sessionId = Math.random().toString(36).substring(2, 10);
+        
+        // 2. Build the URL for the phone - Works on any domain/hosting
+        const urlParams = new URLSearchParams(window.location.search);
+        const currentOrigin = window.location.origin;
+        const uploadUrl = `${currentOrigin}/upload.html?sessionId=${sessionId}`;
+        
+        document.getElementById('url-display').innerText = uploadUrl;
+
+        // 3. Generate QR Code
+        new QRCode(document.getElementById("qrcode"), {
+            text: uploadUrl,
+            width: 256,
+            height: 256
+        });
+
+        console.log("Session ID:", sessionId);
+        console.log("Upload URL:", uploadUrl);
+
+        // 4. Polling Function: Check status every 2 seconds
+        const checkStatus = setInterval(async () => {
+            try {
+                const response = await fetch(`/check-status/${sessionId}`);
+                const data = await response.json();
+
+                if (data.uploaded) {
+                    document.getElementById('status').innerText = "File detected! Processing...";
+                    clearInterval(checkStatus); // Tigil na ang polling
+                    
+                    // Lipat na sa review page pagkatapos ng 1.5 seconds
+                    setTimeout(() => {
+                        window.location.href = `/review.html?sessionId=${sessionId}`;
+                    }, 1500);
+                }
+            } catch (err) {
+                console.error("Error checking status:", err);
+            }
+        }, 2000);
+    </script>
+</body>
+</html>

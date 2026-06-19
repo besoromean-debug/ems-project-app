@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
+    <title>Employee Management - Login</title>
+    <style>
+        :root {
+            /* Primary */
+            --color-primary-50: #f7f7f8;
+            --color-primary-100: #ececf2;
+            --color-primary-200: #d2d3e9;
+            --color-primary-300: #b3b4e7;
+            --color-primary-400: #8e90e9;
+            --color-primary-500: #6467f2;
+            --color-primary-600: #2e31e2;
+            --color-primary-700: #2123a8;
+            --color-primary-800: #1b1c68;
+            --color-primary-900: #0f102e;
+            --color-primary-950: #070713;
+            /* Secondary */
+            --color-secondary-50: #f7f7f8;
+            --color-secondary-100: #efecf2;
+            --color-secondary-200: #ddd2e9;
+            --color-secondary-300: #ccb3e7;
+            --color-secondary-400: #ba8eea;
+            --color-secondary-500: #a863f2;
+            --color-secondary-600: #852ce3;
+            --color-secondary-700: #6220a9;
+            --color-secondary-800: #401b68;
+            --color-secondary-900: #1e0f2e;
+            --color-secondary-950: #0d0713;
+            /* Success */
+            --color-success-50: #f7f8f7;
+            --color-success-100: #e5ece8;
+            --color-success-200: #bcdac7;
+            --color-success-300: #8bd1a4;
+            --color-success-400: #51cf7f;
+            --color-success-500: #21c45d;
+            --color-success-600: #21974c;
+            --color-success-700: #1e6d3b;
+            --color-success-800: #184629;
+            --color-success-900: #0e2215;
+            --color-success-950: #08120b;
+            /* Warning */
+            --color-warning-50: #f8f8f7;
+            --color-warning-100: #eeebe6;
+            --color-warning-200: #e2d4bd;
+            --color-warning-300: #dec08b;
+            --color-warning-400: #e5ae4f;
+            --color-warning-500: #f59f0a;
+            --color-warning-600: #ba7d12;
+            --color-warning-700: #855c14;
+            --color-warning-800: #543c12;
+            --color-warning-900: #281d0b;
+            --color-warning-950: #130e06;
+            /* Danger */
+            --color-danger-50: #f8f7f7;
+            --color-danger-100: #f0eaea;
+            --color-danger-200: #e5caca;
+            --color-danger-300: #e2a4a4;
+            --color-danger-400: #e57777;
+            --color-danger-500: #ef4343;
+            --color-danger-600: #d61e1e;
+            --color-danger-700: #981e1e;
+            --color-danger-800: #5e1919;
+            --color-danger-900: #2b0e0e;
+            --color-danger-950: #130707;
+            /* Neutral */
+            --color-neutral-50: #f7f7f7;
+            --color-neutral-100: #e9eaeb;
+            --color-neutral-200: #cdcdd2;
+            --color-neutral-300: #afb0ba;
+            --color-neutral-400: #9091a4;
+            --color-neutral-500: #70718f;
+            --color-neutral-600: #5b5c71;
+            --color-neutral-700: #454654;
+            --color-neutral-800: #2f2f37;
+            --color-neutral-900: #18181b;
+            --color-neutral-950: #0c0c0e;
+        }
+
+        body {
+            background: linear-gradient(180deg, rgba(15,23,42,1.00) 0%, rgba(49,46,129,1.00) 100%);
+            min-height: 100vh;
+            margin: 0;
+            display: flex;
+            align-items: center;
+        }
+        .login-card {
+            border: none;
+            border-radius: 1rem;
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.2), 0 10px 10px -5px rgba(0, 0, 0, 0.1);
+            background-color: var(--color-neutral-50);
+        }
+        .card-title {
+            font-weight: 800;
+            letter-spacing: 2px;
+            color: var(--color-primary-800);
+        }
+        .form-control-lg {
+            font-size: 1rem;
+            border-color: var(--color-neutral-200);
+        }
+        .btn-login {
+            font-weight: 700;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            background-color: var(--color-primary-600);
+            border: none;
+        }
+        .btn-login:hover {
+            background-color: var(--color-primary-700);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-4 card p-4 login-card">
+                <h3 class="text-center mb-4 card-title">ADMIN LOGIN</h3>
+                <div id="errorAlert" class="alert alert-danger d-none"></div>
+                <form action="/login" method="POST">
+                    <div class="mb-3">
+                        <label class="form-label"><i class="bi bi-person-fill"></i> Username</label>
+                        <input type="text" name="username" class="form-control form-control-lg" placeholder="Enter username" required>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label"><i class="bi bi-lock-fill"></i> Password</label>
+                        <input type="password" name="password" class="form-control form-control-lg" placeholder="Enter password" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary w-100 btn-login mt-2 py-2">Login</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        window.addEventListener('DOMContentLoaded', () => {
+            const urlParams = new URLSearchParams(window.location.search);
+            const error = urlParams.get('error');
+            
+            if (error) {
+                const decodedError = decodeURIComponent(error);
+                const alertBox = document.getElementById('errorAlert');
+                alertBox.textContent = decodedError;
+                alertBox.classList.remove('d-none');
+                
+                console.log("Login Error Detected:", decodedError);
+            }
+        });
+    </script>
+</body>
+</html>

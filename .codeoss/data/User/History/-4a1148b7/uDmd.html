@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div id="startScreen">
+        <h1>Printing Shop!</h1>
+        <a href="home.html"  >
+besoromean@cloudshell:~ (inkworks-5ecd5)$ npm start
+> hello-node@1.0.0 start
+> node server.js
+Server running at http://0.0.0.0:8080
+            <!-- QR Code container -->
+            <div id="qrcode" style="margin-bottom: 20px;"></div>
+            <p>Scan this QR code to upload your files!</p>
+            <br>
+            <button class="button-73" role="button">click to start</button>
+        </a>
+        <p>PRINT NOW!</p>
+    </div>
+
+<style>
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: Arial, sans-serif;
+    }
+
+    #startScreen {
+        height: 100vh;
+        width: 100%;
+        background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+        color: white;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+        transition: 0.5s;
+        overflow: hidden;
+    }
+
+    #startScreen h1 {
+        font-size: 170px;
+        margin-bottom: 50px;
+        letter-spacing: 3px;
+    }
+
+    .button-73 {
+        height: 150px;
+        width: 400px;
+  appearance: none;
+  background-color: #FFFFFF;
+  border-radius: 100px;
+  border-style: none;
+  box-shadow: #ADCFFF 0 -12px 6px inset;
+  box-sizing: border-box;
+  color: #000000;
+  cursor: pointer;
+  display: inline-block;
+  font-family: -apple-system,sans-serif;
+  font-size: 2rem;
+  font-weight: 700;
+  letter-spacing: -.24px;
+  margin: 0;
+  outline: none;
+  padding: 1rem 1.3rem;
+  quotes: auto;
+  text-align: center;
+  text-decoration: none;
+  transition: all .15s;
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
+}
+
+.button-73:hover {
+  background-color: #FFC229;
+  box-shadow: #FF6314 0 -6px 8px inset;
+  transform: scale(1.125);
+}
+
+.button-73:active {
+  transform: scale(1.025);
+}
+
+@media (min-width: 768px) {
+  .button-73 {
+    font-size: 1.5rem;
+    padding: .75rem 2rem;
+  }
+}
+   p {
+    margin-top: 50px;
+    font-size: 20px;
+   }
+
+</style>
+
+<!-- Include qrcode.js library -->
+<script src="https://cdn.rawgit.com/davidshimjs/qrcodejs/gh-pages/qrcode.min.js"></script>
+<script>
+    // IMPORTANT: Palitan ang placeholder na ito ng ACTUAL Cloudflare Tunnel URL mo.
+    // Ito yung link na lumabas sa terminal pagkatapos mong i-run ang cloudflared command.
+    // Halimbawa: "https://desire-routers-clause-besides.trycloudflare.com"
+    const cloudflareBaseUrl = "YOUR_CLOUDFLARE_TUNNEL_URL_HERE"; 
+
+    if (cloudflareBaseUrl === "YOUR_CLOUDFLARE_TUNNEL_URL_HERE" || !cloudflareBaseUrl) {
+        console.error("Please update cloudflareBaseUrl in index.html with your actual Cloudflare Tunnel URL.");
+        document.getElementById("qrcode").innerHTML = "<p>Please configure Cloudflare Tunnel URL in index.html to enable QR code.</p>";
+    } else {
+        // Gumawa ng unique Session ID para sa transaction na ito
+        const sessionId = "sess_" + Math.random().toString(36).substr(2, 9);
+
+        // Buuin ang kumpletong link para sa upload page
+        const fullUploadUrl = `${cloudflareBaseUrl}/upload.html?session_id=${sessionId}`;
+
+        // I-generate ang QR Code
+        new QRCode(document.getElementById("qrcode"), {
+            text: fullUploadUrl,
+            width: 256,
+            height: 256
+        });
+
+        console.log("QR Code generated for:", fullUploadUrl);
+
+        // Simulan ang pag-check (polling) kung may file na na-upload para sa session na ito
+        const checkInterval = setInterval(() => {
+            fetch(`/check-status/${sessionId}`) // Gumamit ng relative path, Cloudflare na ang bahala sa routing
+                .then(response => response.json())
+                .then(data => {
+                    if (data.uploaded) {
+                        clearInterval(checkInterval);
+                        alert("File received! Filename: " + data.file.originalname); // Gamitin ang originalname mula sa server.js
+                        window.location.href = `/review.html?session_id=${sessionId}`; // Relative path
+                    }
+                })
+                .catch(error => {
+                    console.error("Error checking status:", error);
+                });
+        }, 3000); // Check every 3 seconds
+    }
+</script>
+</body>
+</html>

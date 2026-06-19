@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div id="startScreen">
+        <h1>Printing Shop!</h1>
+        <a href="home.html">
+            <button class="button-73" role="button">click to start</button>
+        </a>
+        <p>PRINT NOW!</p>
+    </div>
+
+<style>
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: Arial, sans-serif;
+    }
+
+    #startScreen {
+        height: 100vh;
+        width: 100%;
+        background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+        color: white;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+        transition: 0.5s;
+        overflow: hidden;
+    }
+
+    #startScreen h1 {
+        font-size: 170px;
+        margin-bottom: 50px;
+        letter-spacing: 3px;
+    }
+
+    .button-73 {
+        height: 150px;
+        width: 400px;
+        appearance: none;
+        background-color: #FFFFFF;
+        border-radius: 100px;
+        border-style: none;
+        box-shadow: #ADCFFF 0 -12px 6px inset;
+        box-sizing: border-box;
+        color: #000000;
+        cursor: pointer;
+        display: inline-block;
+        font-family: -apple-system,sans-serif;
+        font-size: 2rem;
+        font-weight: 700;
+        letter-spacing: -.24px;
+        margin: 0;
+        outline: none;
+        padding: 1rem 1.3rem;
+        quotes: auto;
+        text-align: center;
+        text-decoration: none;
+        transition: all .15s;
+        user-select: none;
+        -webkit-user-select: none;
+        touch-action: manipulation;
+    }
+
+    .button-73:hover {
+        background-color: #FFC229;
+        box-shadow: #FF6314 0 -6px 8px inset;
+        transform: scale(1.125);
+    }
+
+    .button-73:active {
+        transform: scale(1.025);
+    }
+
+    p {
+        margin-top: 50px;
+        font-size: 20px;
+    }
+</style>
+</body>
+</html>

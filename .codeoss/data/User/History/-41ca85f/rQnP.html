@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
+    <title>Employee Management - Login</title>
+    <style>
+        html, body {
+            height: 100%;
+            margin: 0;
+            background: linear-gradient(180deg, #0f172a 0%, #312e81 100%) no-repeat fixed;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        .login-card {
+            border: none;
+            border-radius: 1rem;
+            box-shadow: 0 1rem 3rem rgba(0,0,0,0.5);
+            background: rgba(15, 23, 42, 0.8); /* Semi-transparent dark slate */
+            backdrop-filter: blur(10px); /* Glassmorphism effect */
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: #ffffff;
+        }
+        .card-title {
+            font-weight: 800;
+            letter-spacing: 2px;
+            color: #ffffff;
+        }
+        .btn-login {
+            font-weight: 700;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            background-color: #3b82f6; /* Modern Blue */
+            border: none;
+        }
+        .input-group-text {
+            background-color: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: rgba(255, 255, 255, 0.7);
+            cursor: pointer;
+        }
+        .form-control {
+            background-color: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: #ffffff;
+        }
+        .form-control:focus {
+            background-color: rgba(255, 255, 255, 0.1);
+            border-color: #3b82f6;
+            color: #ffffff;
+            box-shadow: none;
+        }
+        .form-control::placeholder {
+            color: rgba(255, 255, 255, 0.4);
+        }
+    </style>
+</head>
+<body class="d-flex align-items-center vh-100" style="">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-12 col-sm-8 col-md-6 col-lg-4" style="max-width: 400px;">
+                <div class="card login-card p-4">
+                    <h3 class="text-center mb-4 card-title text-uppercase">Admin Login</h3>
+                    
+                    <!-- Alert Message -->
+                    <div id="errorAlert" class="alert alert-danger d-none py-2 small text-center mb-3"></div>
+                    
+                    <form action="/login" method="POST">
+                        <!-- Username -->
+                        <div class="mb-3">
+                            <label class="form-label small fw-bold" style="color: #3b82f6;"><i class="bi bi-person-fill"></i> Username</label>
+                            <input type="text" name="username" class="form-control" placeholder="Enter username" required>
+                        </div>
+                        
+                        <!-- Password -->
+                        <div class="mb-4">
+                            <label class="form-label small fw-bold" style="color: #3b82f6;"><i class="bi bi-lock-fill"></i> Password</label>
+                            <div class="input-group">
+                                <input type="password" name="password" id="passwordInput" class="form-control" placeholder="Enter password" required>
+                                <span class="input-group-text" id="togglePassword">
+                                    <i class="bi bi-eye-slash" id="toggleIcon"></i>
+                                </span>
+                            </div>
+                        </div>
+                        
+                        <button type="submit" class="btn btn-primary w-100 btn-login py-2 text-white">
+                            Login <i class="bi bi-box-arrow-in-right ms-1"></i>
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        window.addEventListener('DOMContentLoaded', () => {
+            // Error Alert Logic
+            const urlParams = new URLSearchParams(window.location.search);
+            const error = urlParams.get('error');
+            if (error) {
+                const alertBox = document.getElementById('errorAlert');
+                alertBox.textContent = decodeURIComponent(error);
+                alertBox.classList.remove('d-none');
+            }
+
+            // Show/Hide Password Logic
+            const togglePassword = document.querySelector('#togglePassword');
+            const passwordInput = document.querySelector('#passwordInput');
+            const toggleIcon = document.querySelector('#toggleIcon');
+
+            togglePassword.addEventListener('click', function () {
+                const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
+                passwordInput.setAttribute('type', type);
+                
+                // Toggle icons
+                toggleIcon.classList.toggle('bi-eye');
+                toggleIcon.classList.toggle('bi-eye-slash');
+            });
+        });
+    </script>
+</body>
+</html>

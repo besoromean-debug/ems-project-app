@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Upload File</title>
+    <style>
+        body { font-family: sans-serif; display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100vh; background: #203a43; color: white; margin: 0; }
+        .container { background: white; padding: 30px; border-radius: 15px; color: #333; text-align: center; width: 80%; }
+        input[type="file"] { margin: 20px 0; }
+        button { background: #2c5364; color: white; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer; font-size: 16px; }
+        button { 
+            background: #2c5364; color: white; border: none; padding: 12px 24px; 
+            border-radius: 8px; cursor: pointer; font-size: 16px; font-weight: bold;
+            transition: background 0.3s, transform 0.1s;
+        }
+        button:hover:not(:disabled) { background: #203a43; transform: scale(1.02); }
+        button:active:not(:disabled) { transform: scale(0.98); }
+        button:disabled { background: #ccc; cursor: not-allowed; }
+        #status { margin-top: 15px; font-weight: bold; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Upload Document</h2>
+        <p>Select PDF or Word file to print</p>
+        <p>Select a PDF or Word file to upload for printing.</p>
+        <form id="uploadForm">
+            <input type="file" name="file" accept=".pdf,.doc,.docx" required><br>
+            <button type="submit">Upload Now</button>
+        </form>
+        <div id="status"></div>
+    </div>
+
+    <script>
+        document.getElementById('uploadForm').onsubmit = async (e) => {
+            e.preventDefault();
+            const formData = new FormData(e.target);
+            const btn = e.target.querySelector('button');
+            btn.innerText = 'Uploading...';
+            btn.disabled = true;
+
+            try {
+                const res = await fetch('/upload', { method: 'POST', body: formData });
+                if (res.ok) {
+                const response = await fetch('/upload', { method: 'POST', body: formData });
+                if (response.ok) {
+                    document.body.innerHTML = "<h1>Upload Success!</h1><p>Check the desktop screen to continue.</p>";
+                } else {
+                    alert('Upload failed');
+                    const errorText = await response.text();
+                    alert('Upload failed: ' + (errorText || 'Internal Server Error'));
+                    btn.innerText = 'Upload Now';
+                    btn.disabled = false;
+                }
+            } catch (err) {
+                alert('Error connecting to server');
+                console.error(err);
+                alert('Error connecting to server. Please check your network.');
+                btn.innerText = 'Upload Now';
+                btn.disabled = false;
+            }
+        };
+    </script>
+</body>
+</html>
