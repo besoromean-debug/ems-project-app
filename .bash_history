@@ -96,3 +96,26 @@ git remote add origin https://github.com/besoromean-debug/my-ems-project.git
 git add .
 git commit -m "Initial upload of EMS project"
 git init
+git add .
+git commit -m "Initial commit - EMS project"
+git config --global user.email"besoromean@gmail.com"
+git config --global user.name"besoromean"
+git commit -m "Initial commit - EMS project"
+git config --global user.email"besoromean@gmail.com"
+git config --global user.name"besoromean-debug"
+git commit -m "Initial commit - EMS project"
+git config --global user.name "mheann"
+git commit -m "Initial commit - EMS project"
+git branch -M main
+git remote add origin https://github.com/iyong-username/my-ems-app.git
+git remote add origin https://github.com/besoromean-debug/my-ems-project.git
+git remote add origin https://github.com/besoromean-debug/ems-project-app.git
+git remote set-url origin https://github.com/besoromean-debug/ems-project-app.git
+git remote remove origin
+git remote add origin https://github.com/besoromean-debug/ems-project-app.git
+git remote -v
+git push -u origin main
+git add .
+git commit -m "Final check before push"
+git push -u origin main
+git rm -r --cached .

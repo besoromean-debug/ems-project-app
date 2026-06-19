@@ -4,6 +4,3 @@ uploads/
 .env
 .DS_Store
 *.log
-.cache/
-.local/
-.config/

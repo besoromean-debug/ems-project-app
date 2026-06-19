@@ -1,1 +1,0 @@
-{"private":true,"dependencies":{"types-registry":"^0.1.774"},"devDependencies":{"@types/bcrypt":"^6.0.0","@types/express":"^5.0.6","@types/express-session":"^1.19.0","@types/multer":"^2.1.0","@types/node":"^25.7.0","@types/react":"^19.2.17"}}
